@@ -32,7 +32,7 @@ export function createProtobufRpcClient(base: QueryClient): ProtobufRpcClient {
   return {
     request: async (service: string, method: string, data: Uint8Array): Promise<Uint8Array> => {
       const path = `/${service}/${method}`;
-      const response = await base.queryAbci(path, data, undefined);
+      const response = await base.queryAbci(path, data, base.desiredHeight);
       return response.value;
     },
   };

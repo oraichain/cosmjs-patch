@@ -24,9 +24,10 @@ import {
 } from "../testutils.spec";
 import { QueryClient } from "./queryclient";
 
-async function makeClient(rpcUrl: string): Promise<[QueryClient, CometClient]> {
+async function makeClient(rpcUrl: string, desiredHeight?: number): Promise<[QueryClient, CometClient]> {
   const cometClient = await Tendermint34Client.connect(rpcUrl);
-  return [QueryClient.withExtensions(cometClient), cometClient];
+  const queryClient = desiredHeight ? QueryClient.withExtensionsWithHeight(cometClient, desiredHeight) : QueryClient.withExtensions(cometClient);
+  return [queryClient, cometClient];
 }
 
 /**
